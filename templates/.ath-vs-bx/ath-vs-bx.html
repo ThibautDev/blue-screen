@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../js/action.js"></script>
+    <title>Ath vs Bx</title>
+    <style>
+        @font-face{
+            font-family: Fjalla One;
+            src: url("{{ url_for('static', filename='./font/FjallaOne-Regular.ttf') }}");
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-image: url("{{url_for('static', filename='/img/ath_vs_bx_bg.jpg')}}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        main {
+            display: flex; flex-direction: row;
+            justify-content: space-around;
+            height: 100vh;
+            align-items: center;
+        }
+
+        .ville {
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            height: 60vh;
+            width: 60vh;
+
+            font-size: 25vh;
+            color: white;
+            font-family: Fjalla One;
+        }
+
+        #ath {
+            background-color: #e122f8;
+        }
+
+        #bx {
+            background-color: #f9e64d;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="ville" id="ath">
+            Ath
+            <span id="score-ath"></span>
+        </div>
+        <div  class="ville" id="bx">
+            Bx
+            <span id="score-bx"></span>
+        </div>
+    </main>
+    <div>
+
+    </div>
+</body>
+</html>
+
+<script>
+async function fetchScores() {
+    try {
+        let response = await fetch("/ath_vs_bx/api");
+        let data = await response.json();
+        
+        document.getElementById("score-ath").innerText = data.Ath;
+        document.getElementById("score-bx").innerText = data.Bx;
+    } catch (error) {
+        console.error("Failed to fetch scores:", error);
+    }
+}
+
+// Update scores every 2 seconds for real-time effect
+setInterval(fetchScores, 2000);
+
+// Initial fetch on page load
+document.addEventListener("DOMContentLoaded", fetchScores);
+</script>

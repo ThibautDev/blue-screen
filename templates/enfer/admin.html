@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        @font-face{
+            font-family: Fjalla One;
+            src: url("{{ url_for('static', filename='./font/FjallaOne-Regular.ttf') }}");
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #5217A2;
+            color: #FFFFFF;
+            padding: 2vh;
+            margin: 0;
+            text-align: center;
+            font-family: Fjalla One;
+            z-index: 10;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            margin-top: 80px;
+        }
+
+        main > div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        main > div > span {
+            display: block;
+            font-family: Fjalla One;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 20px 25px;
+            margin: 5px;
+            background-color: #5217A2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #410E7A;
+        }
+
+        #CI {
+            background-color: #f3e5f5;
+            border: solid 2px #5217A2;
+        }
+
+        #CePha {
+            background-color: #e8f5e9;
+            border: solid 2px #2c673e;
+        }
+
+        #CKO {
+            background-color: #fbe9e7;
+            border: solid 2px #961d13;
+        }
+
+        #CPL {
+            background-color: #f1f1f1;
+            border: solid 2px #1a1a1a;
+        }
+
+        .counter {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>Admin Panel</header>
+    <main>
+        <div id="CI">
+            <span>CI</span>
+            <div class="counter" id="CI-counter">Error</div>
+            <button onclick="updateScore('CI', 'add')">+1 CI</button>
+            <button onclick="updateScore('CI', 'sub')">-1 CI</button>
+        </div> 
+        <div id="CePha">
+            <span>CePha</span>
+            <div class="counter" id="CePha-counter">Error</div>
+            <button onclick="updateScore('CePha', 'add')">+1 CePha</button>
+            <button onclick="updateScore('CePha', 'sub')">-1 CePha</button>
+        </div> 
+        <div id="CKO">
+            <span>CKO</span>
+            <div class="counter" id="CKO-counter">Error</div>
+            <button onclick="updateScore('CKO', 'add')">+1 CKO</button>
+            <button onclick="updateScore('CKO', 'sub')">-1 CKO</button>
+        </div> 
+        <div id="CPL">
+            <span>CPL</span>
+            <div class="counter" id="CPL-counter">Error</div>
+            <button onclick="updateScore('CPL', 'add')">+1 CPL</button>
+            <button onclick="updateScore('CPL', 'sub')">-1 CPL</button>
+        </div>
+    </main>
+
+    <script>
+        async function fetchScores() {
+            let response = await fetch("/api");
+            let data = await response.json();
+
+            for (let id in data) {
+                let counter = document.getElementById(id + '-counter');
+                if (counter) {
+                    counter.textContent = data[id];  // Set the counter value to the fetched score
+                }
+            }
+        }
+
+        async function updateScore(cercle, operation) {
+            let response = await fetch("/api", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ cercle: cercle, operation: operation })
+            });
+
+            let result = await response.json();
+            if (result.succeed) {
+                fetchScores();
+            } else {
+                alert("Error: " + result.error);
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", fetchScores);
+    </script>
+</body>
+</html>

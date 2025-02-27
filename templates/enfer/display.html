@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @font-face{
+            font-family: Fjalla One;
+            src: url("{{ url_for('static', filename='./font/FjallaOne-Regular.ttf') }}");
+        }
+        html, body {
+            height: 100%; /* Make sure the body and html take up the full viewport height */
+            margin: 0; /* Remove default margin */
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+            grid-template-rows: repeat(2, 1fr);    /* Two equal rows */
+            gap: 100px;
+            padding: 100px;
+
+            height: 100vh;  /* Full viewport height */
+            width: 100vw;   /* Full viewport width */
+            box-sizing: border-box; /* Ensures padding is included in the width/height calculation */
+            background-image: url("{{url_for('static', filename='/img/enfer.gif')}}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        main > div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 8px;
+        }
+
+        main > div > span {
+            display: block;
+            font-family: Fjalla One;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        main > div > .counter {
+            font-family: Fjalla One;
+            font-size: 10em;
+        }
+
+        #CI {
+            background-color: #f3e5f5;
+            border: solid 2px #5217A2;
+        }
+
+        #CePha {
+            background-color: #e8f5e9;
+            border: solid 2px #2c673e;
+        }
+
+        #CKO {
+            background-color: #fbe9e7;
+            border: solid 2px #961d13;
+        }
+
+        #CPL {
+            background-color: #f1f1f1;
+            border: solid 2px #1a1a1a;
+        }
+
+        .counter {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div id="CI">
+            <span>CI</span>
+            <div class="counter" id="CI-counter">Error</div>
+        </div> 
+        <div id="CePha">
+            <span>CePha</span>
+            <div class="counter" id="CePha-counter">Error</div>
+        </div> 
+        <div id="CKO">
+            <span>CKO</span>
+            <div class="counter" id="CKO-counter">Error</div>
+        </div> 
+        <div id="CPL">
+            <span>CPL</span>
+            <div class="counter" id="CPL-counter">Error</div>
+        </div>
+    </main>
+</body>
+</html>
+
+<script>
+    async function fetchScores() {
+        let response = await fetch("/api");
+        let data = await response.json();
+
+        for (let id in data) {
+            let counter = document.getElementById(id + '-counter');
+            if (counter) {
+                counter.textContent = data[id];  // Set the counter value to the fetched score
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        fetchScores(); // Initial fetch on page load
+        setInterval(fetchScores, 1000); // Poll every 5 seconds
+    });
+</script>

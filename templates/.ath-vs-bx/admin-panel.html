@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!DOCTYPE html>
+    <title>Document</title>
+    <style>
+        .scoreButton {
+        background-color: #5217A2;
+        /* Mauve beau */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        margin: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        width: 170px;
+        border-radius: 10px;
+    }
+
+    .scoreButton:hover {
+        background-color: #6C3AC0;
+        /* Mauve moche */
+    }
+
+    img {
+        width: 170px;
+        top: 25%;
+        position: relative;
+    }
+
+    div #adminPage {
+        display: block;
+        max-width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #adminPage {
+        font-size: xx-large;
+    }
+
+    html {
+        font-family: "Fjalla One", sans-serif;
+    }
+
+    .scoreDisplay {
+        font-size: large;
+    }
+    </style>
+</head>
+
+<body onload="displayScore()">
+    <div>
+        <div>
+            <span id="adminPage">Page admin</span>
+        </div>
+
+        <div style="margin-top: 10px; max-width:fit-content;margin-left: auto;margin-right: auto;">
+            <div style="display: flex;">
+                <div>
+                    <div style=" position: relative; max-width:fit-content;margin-left: auto;margin-right: auto;height: 283.05px;">
+                        <img src="{{url_for('static', filename='/img/Blason_Bx.png')}}">
+                    </div>
+                    <div class="scoreDisplay">
+                        Score : <span id="scoreBx"></span>
+                    </div>
+                    <div>
+                        <button class="scoreButton" onclick="plusUnBx()">
+                            +1 points Bx
+                        </button>
+                    </div>
+                    <div>
+                        <button class="scoreButton" onclick="moinsUnBx()">
+                            -1 points Bx
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div style=" max-width:fit-content;margin-left: auto;margin-right: auto;">
+                        <img src="{{url_for('static', filename='/img/Blason_Ath.png')}}">
+                    </div>
+                    <div class="scoreDisplay">
+                        Score : <span id="scoreAth"></span>
+                    </div>
+                    <div>
+                        <button class="scoreButton" onclick="plusUnAth()">
+                            +1 points Ath
+                        </button>
+                    </div>
+                    <div>
+                        <button class="scoreButton" onclick="moinsUnAth()">
+                            -1 points Ath
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+<script>
+async function fetchScores() {
+    let response = await fetch("/ath_vs_bx/api");
+    let data = await response.json();
+    document.getElementById("scoreAth").innerText = data.Ath;
+    document.getElementById("scoreBx").innerText = data.Bx;
+}
+
+async function updateScore(city, operation) {
+    let response = await fetch("/ath_vs_bx/api", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ city: city, operation: operation })
+    });
+
+    let result = await response.json();
+    if (result.succeed) {
+        fetchScores();
+    } else {
+        alert("Error: " + result.error);
+    }
+}
+
+function plusUnBx() { updateScore("Bx", "add"); }
+function plusUnAth() { updateScore("Ath", "add"); }
+function moinsUnBx() { updateScore("Bx", "subtract"); }
+function moinsUnAth() { updateScore("Ath", "subtract"); }
+
+document.addEventListener("DOMContentLoaded", fetchScores);
+</script>
