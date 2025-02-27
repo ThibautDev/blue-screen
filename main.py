@@ -26,7 +26,10 @@ def load_scores():
 
 @app.route('/')
 def hello_world():
-   return "Hello from the Rasb 🍓 !"
+   return """
+        <p>Hello from the Rasb 🍓 !<p>
+        <p><a href="/cli">Link<a> to the cli page</p>
+        """
 
 @app.route('/cli', methods=['GET', 'POST'])
 def cli():
