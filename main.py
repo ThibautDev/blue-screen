@@ -7,10 +7,8 @@ app = Flask(__name__)
 
 ADMIN_PW = "4097889236a2af26c293033feb964c4cf118c0224e0d063fec0a89e9d0569ef2"
 scores = {
-    'CI': 0,
-    'CePha': 0,
-    'CKO': 0,
-    'CPL': 0,
+    'toges': 0,
+    'non-toges': 0,
 }
 SCORES_FILE = 'scores.json'
 

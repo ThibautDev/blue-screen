@@ -16,10 +16,10 @@
 
         main {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-            grid-template-rows: repeat(2, 1fr);    /* Two equal rows */
+            grid-template-columns: repeat(2, 1fr); 
+            /* grid-template-rows: repeat(2, 1fr); */
             gap: 100px;
-            padding: 100px;
+            padding: 150px;
 
             height: 100vh;  /* Full viewport height */
             width: 100vw;   /* Full viewport width */
@@ -40,32 +40,22 @@
         main > div > span {
             display: block;
             font-family: Fjalla One;
-            font-size: 3em;
+            font-size: 5em;
             margin-bottom: 10px;
         }
         main > div > .counter {
             font-family: Fjalla One;
-            font-size: 10em;
+            font-size: 20em;
         }
 
-        #CI {
-            background-color: #f3e5f5;
-            border: solid 2px #5217A2;
-        }
-
-        #CePha {
-            background-color: #e8f5e9;
-            border: solid 2px #2c673e;
-        }
-
-        #CKO {
-            background-color: #fbe9e7;
-            border: solid 2px #961d13;
-        }
-
-        #CPL {
+        #toges {
             background-color: #f1f1f1;
             border: solid 2px #1a1a1a;
+        }
+
+        #non-toges {
+            background-color: #f3e5f5;
+            border: solid 2px #5217A2;
         }
 
         .counter {
@@ -76,22 +66,14 @@
 </head>
 <body>
     <main>
-        <div id="CI">
-            <span>CI</span>
-            <div class="counter" id="CI-counter">Error</div>
+        <div id="toges">
+            <span>Togé.e.s</span>
+            <div class="counter" id="toges-counter">Error</div>
         </div> 
-        <div id="CePha">
-            <span>CePha</span>
-            <div class="counter" id="CePha-counter">Error</div>
+        <div id="non-toges">
+            <span>Non-togé.e.s</span>
+            <div class="counter" id="non-toges-counter">Error</div>
         </div> 
-        <div id="CKO">
-            <span>CKO</span>
-            <div class="counter" id="CKO-counter">Error</div>
-        </div> 
-        <div id="CPL">
-            <span>CPL</span>
-            <div class="counter" id="CPL-counter">Error</div>
-        </div>
     </main>
 </body>
 </html>
