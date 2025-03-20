@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="openFirefox('enfer')">Enfer</button>
+</body>
+</html>
+
+<script>
+    async function openFirefox(operation) {
+        let response = await fetch("/change_display_api", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ operation: operation })
+        });
+    }
+</script>

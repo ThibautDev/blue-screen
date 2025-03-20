@@ -27,6 +27,7 @@ def hello_world():
    return """
         <p>Hello from the Rasb 🍓 !<p>
         <p><a href="/cli">Link<a> to the cli page</p>
+        <p><a href="/change_display">Link<a> to the change_display page</p>
         """
 
 @app.route('/cli', methods=['GET', 'POST'])
@@ -60,6 +61,19 @@ def api():
 @app.route('/display')
 def display():
     return render_template('/enfer/display.html')
+
+
+@app.route('/change_display')
+def change_display():
+    return render_template('/change_display/index.html')
+
+@app.route('/change_display_api', methods=['GET', 'POST'])
+def change_display_api():
+    if request.method == 'POST':
+        data = request.get_json()
+        if data.get('operation') == 'enfer':
+            os.system('firefox http://127.0.0.1:5000/display')
+
 
 if __name__ == '__main__':
     load_scores()
